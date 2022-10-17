@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<my-head></my-head>
+
+<body>
+	<!-- Header -->
+	<my-header></my-header>
+
+	<!-- Search -->
+	<my-search></my-search>
+
+	<!-- Blog post -->
+	<section class="blog-post section-header-offset">
+		<div class="blog-post-container container">
+			<div class="blog-post-data">
+				<h3 class="title blog-post-title">NetCDF data pipeline with Pytorch and Xarray/Dask</h3>
+				<div class="article-data">
+					<span>Dec 6th 2021</span>
+					<span class="article-data-spacer"></span>
+					<span>4 Min read</span>
+				</div>
+				<img src="./assets/images/featured/featured-1.jpg" alt="">
+			</div>
+
+			<div class="container">
+				<p>
+					Deep learning has been gaining many achievements in many fields, from image recognition to
+					natural language processing. There are many open-source projects with available code to help the
+					community to build their own models. Most projects focus on exploring new model architecture using
+					available benchmark data sets, which have been preprocessed and are ready to be used. However, data
+					from real-world applications are often not in the same format, and it is not always easy to be fed
+					into a model. In this post, I will show how to build a data pipeline to load NetCDF data into a simple
+					convolutional neural network using Pytorch and Xarray/Dask.
+				</p>
+
+				<p>
+					NetCDF is a file format for storing scientific data. It is a binary file format, and it is not
+					compatible with most image processing libraries. However, it is a very common format for storing
+					geophysical data, such as weather data, ocean data, and so on. In this post, I will use a NetCDF file
+					containing the sea surface temperature (SST) data from the NOAA OISST project. The data is stored in
+					4D, with the dimensions of time, latitude, longitude, and depth. The data is stored in a grid, with
+					the latitude and longitude values ranging from -90 to 90 and -180 to 180, respectively. The depth
+					dimension is not used in this example, so it will be ignored. As a result, the data is comprised of
+					slices of 2D array with the latitude and longitude values as the row and column indices, respectively.
+					The data is stored in float32, and the values are in Celsius.
+				</p>
+
+				<p>
+					Import libraries
+				</p>
+
+				<pre><code>
+	import sys
+	import os
+	import xarray as xr
+	import numpy as np
+	import random
+	import torch.utils.data as data
+	import matplotlib.pyplot as plt
+	import glob
+	import pandas as pd
+	import random
+	from torchvision import transforms
+	import torch
+	import dask
+				</code></pre>
+
+				<p>
+					Load data with xarray is quite easy. The data is stored in a grid, so we can use the xarray.open_dataset.
+					When we have many files, we can use the glob.glob to get a list of files, and then use the
+					xarray.open_mfdataset to open all files at once. The data is stored in a 3D array, with the dimensions of
+					time, latitude, longitude.
+				</p>
+
+
+
+				<pre><code>
+	ds = xr.open_mfdataset(
+			filenames,
+			combine="by_coords",
+			chunks={"time": 1, "nlat": 1200, "nlon": 1200},
+	)
+				</code></pre>
+				<p>
+					The chunks argument is used to specify the chunk size to load the data. All NetCDF data have been processed
+					and store in chunks of size 1x120x120 (time, latitude, longitude). Therefore, using the the loading chunk size
+					of 1x1200x1200 will result in loading the data in multiple chunks in storage. This is efficient because we do
+					not load any storage chunk twice. For more information, please refer to the xarray, dask, and netcdf
+					documentation.
+				</p>
+
+				<p>
+					Examine data
+				</p>
+
+				<pre class="language-css hljs prettyprinted">/* HOVER STYLES ON THE BUTTON */
+
+					/* rotate middle dash of hamburger */
+					.hamburger__toggle:hover .hamburger__icon {
+						height: 5px;
+						width: 54px;
+						left: 5px;
+						top: calc(50% - 2px);
+						transform: rotate(-45deg);
+						background-color: red;
+					}
+					
+					/* rotate bottom dash of hamburger counter clockwise */
+					.hamburger__toggle:hover .hamburger__icon::after {
+						width: 54px;
+						height: 5px;
+						top: -1px;
+						transform: rotate(-270deg);
+						background-color: red;
+					}
+					
+					/* hide the top dash by scaling it to 0 */
+					.hamburger__toggle:hover .hamburger__icon::before {
+						transform: scale(0);
+					}
+					</pre>
+
+
+
+
+
+				<p>
+					We will handle comple data processing techniques in other posts.
+				</p>
+
+
+
+
+
+				<blockquote class="quote">
+					<p><span><i class="ri-double-quotes-l"></i></span> Lorem ipsum dolor sit amet consectetur
+						adipisicing elit. Officia voluptates, laboriosam voluptatum quos non consequuntur nesciunt
+						necessitatibus tempora quod inventore corporis rem nihil itaque, at provident minus aliquam
+						veritatis. Labore? <span><i class="ri-double-quotes-r"></i></span></p>
+				</blockquote>
+
+				<p>
+
+				</p>
+
+				<div class="author d-grid">
+					<div class="author-image-box">
+						<img src="./assets/images/author.jpg" alt="" class="article-image">
+					</div>
+					<div class="author-about">
+						<h3 class="author-name">Hieu Le</h3>
+						<p>
+							PhD candidate at Texas A&M.
+							Currently working on the development of a deep learning framework for computer graphics.
+
+						</p>
+						</p>
+						<ul class="list social-media">
+							<li class="list-item">
+								<a href="#" class="list-link"><i class="ri-instagram-line"></i></a>
+							</li>
+							<li class="list-item">
+								<a href="#" class="list-link"><i class="ri-facebook-circle-line"></i></a>
+							</li>
+							<li class="list-item">
+								<a href="#" class="list-link"><i class="ri-twitter-line"></i></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<my-footer></my-footer>
+
+	<!-- Swiper -->
+	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+
+	<!-- Custom script -->
+	<script src="./assets/js/main.js"></script>
+</body>
+
+</html>

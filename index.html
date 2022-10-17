@@ -1,186 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>DevHieu Portfolio Website</title>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
-			integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc="
-			crossorigin="anonymous"
-		/>
-		<link
-			href="https://fonts.googleapis.com/css?family=Lora:400,700|Roboto+Slab:400,700&display=swap"
-			rel="stylesheet"
-		/>
-		<link rel="stylesheet" href="css/style.css" />
-	</head>
 
-	<body>
-		<header>
-			<div class="logo">
-				<img src="img/my-logo.png" alt="" />
-			</div>
-			<button class="nav-toggle" aria-label="toggle navigation">
-				<span class="hamburger"></span>
-			</button>
-			<nav class="nav">
-				<ul class="nav__list">
-					<li class="nav__item">
-						<a href="#home" class="nav__link">Home</a>
-					</li>
-					<li class="nav__item">
-						<a href="#services" class="nav__link">My Services</a>
-					</li>
-					<li class="nav__item">
-						<a href="#about" class="nav__link">About me</a>
-					</li>
-					<li class="nav__item">
-						<a href="#work" class="nav__link">My Work</a>
-					</li>
-				</ul>
-			</nav>
-		</header>
+<my-head></my-head>
 
-		<!-- Introduction -->
-		<section class="intro" id="home">
-			<h1 class="section__title section__title--intro">
-				Hi, I am <strong>Hieu T. Le</strong>
-			</h1>
-			<p class="section__subtitle section__subtitle--intro">
-				Research Assistant
-			</p>
-			<img src="" alt="a picture of Hieu Le" class="intro__img" />
-		</section>
+<body>
+	<!-- Header -->
+	<my-header></my-header>
 
-		<!-- My section -->
-		<section class="my-services" id="services">
-			<h2 class="section_title section__title--services">What I do</h2>
+	<!-- Search -->
+	<my-search></my-search>
 
-			<div class="services">
-				<div class="service">
-					<h3>Data Analysis</h3>
-					<p>
-						Analyze scientific data which might be fairly large up
-						to 100 GB
-					</p>
+	<!-- Featured articles -->
+	<section class="featured-articles section section-header-offset">
+
+		<div class="featured-articles-container container d-grid">
+
+			<div class="featured-content d-grid">
+
+				<div class="headline-banner">
+					<h3 class="headline fancy-border">
+						<span class="place-items-center">Important Blog</span>
+					</h3>
+					<span class="headline-description">Building complete applications with TensorFlow/Pytorch</span>
 				</div>
-				<!-- / service-->
 
-				<div class="service">
-					<h3>Machine Learning</h3>
-					<p>
-						Utilize different machine learning models to compress
-						and denoise data
-					</p>
-				</div>
-				<!-- / service-->
+				<a href="./post.html" class="article featured-article featured-article-1">
+					<img src="./assets/images/featured/featured-1.jpg" alt="" class="article-image">
+					<span class="article-category">Pytorch</span>
 
-				<div class="service">
-					<h3>Research</h3>
-					<p>
-						Deep neural network models are built to compress large
-						data.
-					</p>
-				</div>
-				<!-- / service-->
+					<div class="article-data-container">
+
+						<div class="article-data">
+							<span>Oct 17th 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>8 Min read</span>
+						</div>
+
+						<h3 class="title article-title">NetCDF data pipeline with Pytorch and Xarray/Dask</h3>
+
+					</div>
+				</a>
+
+				<a href="./post.html" class="article featured-article featured-article-2">
+					<img src="./assets/images/featured/featured-2.jpg" alt="" class="article-image">
+					<span class="article-category">Computer Graphic</span>
+
+					<div class="article-data-container">
+
+						<div class="article-data">
+							<span>Dec 6th 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>4 Min read</span>
+						</div>
+
+						<h3 class="title article-title">Interactive Computer Graphic Note</h3>
+
+					</div>
+				</a>
+
+				<a href="./post.html" class="article featured-article featured-article-3">
+					<img src="./assets/images/featured/featured-3.jpg" alt="" class="article-image">
+					<span class="article-category">Neural Field</span>
+
+					<div class="article-data-container">
+
+						<div class="article-data">
+							<span>Dec 5th 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>5 Min read</span>
+						</div>
+
+						<h3 class="title article-title">Fourier feature mapping for Neural Field</h3>
+
+					</div>
+				</a>
+
 			</div>
-			<!-- / services-->
 
-			<a href="#work" class="btn">My Work</a>
-		</section>
+			<!-- Side bar -->
+			<div class="sidebar d-grid">
 
-		<!-- About me -->
-		<section class="about-me" id="about">
-			<h2 class="section__title section_title--about">Who I am</h2>
-			<p class="section__subtitle section__subtitle--about">
-				Research Assistant at Texas A&M
-			</p>
+				<h3 class="title featured-content-title">Trending Tutorial</h3>
 
-			<div class="about-me__body">
-				<p>something in this paragraph</p>
+				<a href="#" class="trending-news-box">
+					<div class="trending-news-img-box">
+						<span class="trending-number place-items-center">01</span>
+						<img src="./assets/images/trending/trending_1.jpg" alt="" class="article-image">
+					</div>
+
+					<div class="trending-news-data">
+
+						<div class="article-data">
+							<span>23 Dec 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>3 Min read</span>
+						</div>
+
+						<h3 class="title article-title">A complete program to train a custom model with Tensorflow</h3>
+
+					</div>
+				</a>
+
+				<a href="#" class="trending-news-box">
+					<div class="trending-news-img-box">
+						<span class="trending-number place-items-center">02</span>
+						<img src="./assets/images/trending/trending_2.jpg" alt="" class="article-image">
+					</div>
+
+					<div class="trending-news-data">
+
+						<div class="article-data">
+							<span>23 Dec 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>3 Min read</span>
+						</div>
+
+						<h3 class="title article-title">Building a program to train any model with Pytorch</h3>
+
+					</div>
+				</a>
+
+				<a href="#" class="trending-news-box">
+					<div class="trending-news-img-box">
+						<span class="trending-number place-items-center">03</span>
+						<img src="./assets/images/trending/trending_3.jpg" alt="" class="article-image">
+					</div>
+
+					<div class="trending-news-data">
+
+						<div class="article-data">
+							<span>23 Dec 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>3 Min read</span>
+						</div>
+
+						<h3 class="title article-title">Interactive computer graphic with rasterization and ray tracing</h3>
+
+					</div>
+				</a>
+
+				<a href="#" class="trending-news-box">
+					<div class="trending-news-img-box">
+						<span class="trending-number place-items-center">04</span>
+						<img src="./assets/images/trending/trending_4.jpg" alt="" class="article-image">
+					</div>
+
+					<div class="trending-news-data">
+
+						<div class="article-data">
+							<span>23 Dec 2022</span>
+							<span class="article-data-spacer"></span>
+							<span>3 Min read</span>
+						</div>
+
+						<h3 class="title article-title">Fourier feature mapping for Neural Field</h3>
+
+					</div>
+				</a>
+
 			</div>
+		</div>
+	</section>
 
-			<img src="img/hieu_le.jpg" alt="" class="about-me__img" />
-		</section>
+	<!-- Reserve sections -->
 
-		<!-- My Work -->
-		<section class="my-work" id="work">
-			<h2 class="section_title section__title--work">My Work</h2>
-			<p class="section__subtitle section__subtitle--work">
-				Selection of my range of work
-			</p>
+	<!-- Footer -->
+	<my-footer></my-footer>
 
-			<div class="portfolio">
-				<!-- Portfolio item 01-->
-				<a href="porfolio-item.html" class="portfolio__item">
-					<img
-						src="img/portfolio01.jpg"
-						alt=""
-						class="portfolio__img"
-					/>
-				</a>
+	<!-- Swiper -->
+	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
-				<!-- Portfolio item 02-->
-				<a href="porfolio-item.html" class="portfolio__item">
-					<img
-						src="img/portfolio02.PNG"
-						alt=""
-						class="portfolio__img"
-					/>
-				</a>
+	<!-- Custom script -->
+	<script src="./assets/js/main.js"></script>
+</body>
 
-				<!-- Portfolio item 03-->
-				<a href="porfolio-item.html" class="portfolio__item">
-					<img
-						src="img/portfolio03.PNG"
-						alt=""
-						class="portfolio__img"
-					/>
-				</a>
-
-				<!-- Portfolio item 04-->
-				<a href="porfolio-item.html" class="portfolio__item">
-					<img
-						src="img/portfolio04.PNG"
-						alt=""
-						class="portfolio__img"
-					/>
-				</a>
-			</div>
-		</section>
-
-		<!-- Footer -->
-		<footer class="footer">
-			<a href="mailto:hieu.tg.le@gmail.com" class="footer__link"
-				>hieu.tg.le@gmail.com</a
-			>
-			<ul class="social-list">
-				<li class="social-list__item">
-					<a
-						class="social-list__link"
-						href="https://www.linkedin.com/in/hieu-le-54648b192/"
-					>
-						<i class="fab fa-linkedin"></i>
-					</a>
-				</li>
-
-				<li class="social-list__item">
-					<a
-						class="social-list__link"
-						href="https://github.com/GarlicSoup"
-					>
-						<i class="fab fa-github"></i>
-					</a>
-				</li>
-			</ul>
-		</footer>
-
-		<script src="js/index.js"></script>
-	</body>
 </html>
