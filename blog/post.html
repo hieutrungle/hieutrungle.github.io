@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<my-head></my-head>
+<blog-head></blog-head>
 
 <body>
 	<!-- Header -->
-	<my-header></my-header>
+	<root-header></root-header>
 
 	<!-- Search -->
-	<my-search></my-search>
+	<root-search></root-search>
 
 	<!-- Blog post -->
 	<section class="blog-post section-header-offset">
@@ -23,7 +23,7 @@
 				<img src="./assets/images/featured/featured-1.jpg" alt="">
 			</div>
 
-			<div class="container">
+			<div class="container line-numbers match-braces">
 				<p>
 					Deep learning has been gaining many achievements in many fields, from image recognition to
 					natural language processing. There are many open-source projects with available code to help the
@@ -44,26 +44,23 @@
 					dimension is not used in this example, so it will be ignored. As a result, the data is comprised of
 					slices of 2D array with the latitude and longitude values as the row and column indices, respectively.
 					The data is stored in float32, and the values are in Celsius.
-				</p>
-
-				<p>
 					Import libraries
 				</p>
 
-				<pre><code>
-	import sys
-	import os
-	import xarray as xr
-	import numpy as np
-	import random
-	import torch.utils.data as data
-	import matplotlib.pyplot as plt
-	import glob
-	import pandas as pd
-	import random
-	from torchvision import transforms
-	import torch
-	import dask
+				<pre><code class="language-py">
+					import sys
+					import os
+					import xarray as xr
+					import numpy as np
+					import random
+					import torch.utils.data as data
+					import matplotlib.pyplot as plt
+					import glob
+					import pandas as pd
+					import random
+					from torchvision import transforms
+					import torch
+					import dask
 				</code></pre>
 
 				<p>
@@ -73,65 +70,56 @@
 					time, latitude, longitude.
 				</p>
 
-
-
-				<pre><code>
-	ds = xr.open_mfdataset(
-			filenames,
-			combine="by_coords",
-			chunks={"time": 1, "nlat": 1200, "nlon": 1200},
-	)
+				<pre><code class="language-py">
+					ds = xr.open_mfdataset(
+							filenames,
+							combine="by_coords",
+							chunks={"time": 1, "nlat": 1200, "nlon": 1200},
+					)
 				</code></pre>
+
 				<p>
-					The chunks argument is used to specify the chunk size to load the data. All NetCDF data have been processed
-					and store in chunks of size 1x120x120 (time, latitude, longitude). Therefore, using the the loading chunk size
-					of 1x1200x1200 will result in loading the data in multiple chunks in storage. This is efficient because we do
-					not load any storage chunk twice. For more information, please refer to the xarray, dask, and netcdf
-					documentation.
+					The chunks argument is used to specify the chunk size of the data that we want to load to memory. It is not
+					the actual chunk size of the data stored on disk. This is quite confusing, right? The chunk size of the data
+					stored on disk is determined by the person who created the data. For example, a 3D global temperature data set
+					of size 100 x 2400 x 3600 is obtained by simulating a climate model. After completely analyzing the data, the
+					group scientists wants to store the simulated data in a disk. However, it is quite inefficient for a system to
+					store that huge amount of data to disk all at once. Instead, a netCDF software allows the data to be stored in
+					chunks. That is, the data is partitioned into small chunk (small pieces) and then sequentially stored in disk.
+					The storage chunk size is determined by the scientists. In this scenario, the chunk size is 1 x 120 x 120.
+					Therefore, when we use the code above to load this data, we load (1x10x10) chunks of (1x120x120) data to
+					memory at a time.
+				</p>
+
+				<p>
+					We can also set the chunks args to not be divisible by the storage chunk size. However, this will result in
+					some chunks to be loaded to the memory twice. Let examine this issue by setting the chunks argument to be
+				</p>
+
+				<pre><code>chunks={"time": 1, "nlat": 1000, "nlon": 1000},</code></pre>
+
+				<p>
+					I will use `block` to refer to loaded chunks in memory, which is of size 1x100x100, and `chunk` for storage
+					data, whose size is 1x120x120.
+					After process that block of data, the next block of data will be loaded to memory.
+					However, the last chunk in the first block and the first chunk in the second block are the same chunk.
+					Consequently, that chunk has been loaded twice. Imagine that we have 1000 overlapping chunks, the I/O bound
+					would hinder the performance of the data pipeline. Therefore, it is better to set the chunks argument to be
+					divisible by the storage chunk size. To figure out the chunk size of the storage data, we need to look at how
+					to use low-level API of netCDF, which would be covered in a different post. If you would like to dive deeper
+					into the efficiency of the data loading, I would recommend exploring <a href="https://docs.xarray.dev/"
+						class="link-tag" target="_blank">xarray</a>, <a href="https://www.dask.org/" class="link-tag"
+						target="_blank">dask</a>, and <a href="https://unidata.github.io/netcdf4-python/" class="link-tag"
+						target="_blank">netcdf</a> documentation.
 				</p>
 
 				<p>
 					Examine data
 				</p>
 
-				<pre class="language-css hljs prettyprinted">/* HOVER STYLES ON THE BUTTON */
-
-					/* rotate middle dash of hamburger */
-					.hamburger__toggle:hover .hamburger__icon {
-						height: 5px;
-						width: 54px;
-						left: 5px;
-						top: calc(50% - 2px);
-						transform: rotate(-45deg);
-						background-color: red;
-					}
-					
-					/* rotate bottom dash of hamburger counter clockwise */
-					.hamburger__toggle:hover .hamburger__icon::after {
-						width: 54px;
-						height: 5px;
-						top: -1px;
-						transform: rotate(-270deg);
-						background-color: red;
-					}
-					
-					/* hide the top dash by scaling it to 0 */
-					.hamburger__toggle:hover .hamburger__icon::before {
-						transform: scale(0);
-					}
-					</pre>
-
-
-
-
-
 				<p>
 					We will handle comple data processing techniques in other posts.
 				</p>
-
-
-
-
 
 				<blockquote class="quote">
 					<p><span><i class="ri-double-quotes-l"></i></span> Lorem ipsum dolor sit amet consectetur
@@ -144,6 +132,7 @@
 
 				</p>
 
+				<!-- Author -->
 				<div class="author d-grid">
 					<div class="author-image-box">
 						<img src="./assets/images/author.jpg" alt="" class="article-image">
@@ -153,34 +142,35 @@
 						<p>
 							PhD candidate at Texas A&M.
 							Currently working on the development of a deep learning framework for computer graphics.
-
-						</p>
 						</p>
 						<ul class="list social-media">
 							<li class="list-item">
-								<a href="#" class="list-link"><i class="ri-instagram-line"></i></a>
-							</li>
-							<li class="list-item">
-								<a href="#" class="list-link"><i class="ri-facebook-circle-line"></i></a>
-							</li>
-							<li class="list-item">
 								<a href="#" class="list-link"><i class="ri-twitter-line"></i></a>
+							</li>
+							<li class="list-item">
+								<a href="https://www.linkedin.com/in/hieu-le-54648b192/" class="list-link" target="_blank"
+									rel="noopener noreferrer"><i class="ri-linkedin-box-fill"></i></a>
 							</li>
 						</ul>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</section>
 
 	<!-- Footer -->
-	<my-footer></my-footer>
+	<root-footer></root-footer>
 
 	<!-- Swiper -->
 	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
+	<!-- Prism Code Hightlighter -->
+	<script src="../assets/js/prism.js"></script>
+
 	<!-- Custom script -->
-	<script src="./assets/js/main.js"></script>
+	<script src="../assets/js/head_foot.js"></script>
+	<script src="../assets/js/main.js"></script>
 </body>
 
 </html>

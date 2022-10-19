@@ -1,0 +1,24 @@
+/* Import font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import './main.css';
+
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.link-tag {
+    font-style: italic;
+    text-decoration: underline;
+    text-decoration-color: var(--light-color-alt);
+}
+
+.link-tag .current {
+    color: var(--light-color);
+}
+
+.link-tag:hover {
+    color: var(--light-color);
+    text-decoration-color: var(--light-color);
+}
