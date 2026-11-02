@@ -1,177 +1,580 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hieu T. Le — LLM Post-Training &amp; Agentic Systems</title>
+<meta name="description" content="Hieu T. Le — Ph.D. candidate at Texas A&amp;M (Dec 2026) and machine learning engineer working on LLM post-training (SFT, RLVR, GRPO) and agentic systems. Previously ML intern at Uber and engineering intern at Qualcomm.">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Hieu T. Le — LLM Post-Training & Agentic Systems">
+<meta property="og:description" content="Ph.D. candidate at Texas A&M working on LLM post-training (SFT, RLVR, GRPO) and agentic systems. Ex-Uber ML intern, ex-Qualcomm.">
+<meta property="og:url" content="https://hieutrungle.github.io/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  /* apply the saved theme before first paint */
+  (function () { try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Hieu T. Le",
+  "jobTitle": "Ph.D. Candidate, Machine Learning",
+  "affiliation": {"@type": "CollegeOrUniversity", "name": "Texas A&M University"},
+  "email": "mailto:hieu.tg.le@gmail.com",
+  "url": "https://hieutrungle.github.io/",
+  "sameAs": [
+    "https://github.com/hieutrungle",
+    "https://scholar.google.com/citations?user=7waSw2AAAAAJ&hl=en",
+    "https://www.linkedin.com/in/hieu-le-54648b192/"
+  ],
+  "knowsAbout": ["LLM post-training", "Reinforcement learning with verifiable rewards", "GRPO", "Supervised fine-tuning", "Agentic systems", "Multi-agent reinforcement learning"]
+}
+</script>
+<style>
+  :root {
+    --ink: #16325c;          /* primary: deep blue */
+    --accent: #1f4f8f;
+    --gold: #b7862c;
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --text: #1d1c1a;
+    --muted: #5f5a54;
+    --line: #e5e1db;
+    --chip: #eef2f8;
+    --chip-text: #21416f;
+    --hl-bg: #fdf6e8;
+    --radius: 14px;
+    --serif: "EB Garamond", Georgia, serif;
+    --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #a9c4ef; --accent: #b8d0f5; --gold: #e2bd6f;
+      --bg: #121417; --surface: #1b1e23; --text: #e9e7e3; --muted: #a39d96;
+      --line: #2c3037; --chip: #222a36; --chip-text: #c3d5f2; --hl-bg: #262219;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #a9c4ef; --accent: #b8d0f5; --gold: #e2bd6f;
+    --bg: #121417; --surface: #1b1e23; --text: #e9e7e3; --muted: #a39d96;
+    --line: #2c3037; --chip: #222a36; --chip-text: #c3d5f2; --hl-bg: #262219;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] { color-scheme: light; }
 
-<my-head></my-head>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.65 var(--sans); }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .skip { position: absolute; left: -999px; }
+  .skip:focus { left: 16px; top: 12px; background: var(--surface); padding: 8px 12px; z-index: 10; }
 
+  /* Navigation */
+  header.nav { position: sticky; top: 0; z-index: 5; background: var(--bg); background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: flex; align-items: center; height: 64px; gap: 16px; }
+  .brand { font-family: var(--serif); font-size: 1.35rem; font-weight: 600; color: var(--ink); text-decoration: none; white-space: nowrap; }
+  .nav nav { margin-left: auto; min-width: 0; }
+  .nav ul { display: flex; gap: 20px; list-style: none; margin: 0; padding: 8px 0; overflow-x: auto; scrollbar-width: none; }
+  .nav ul a { position: relative; color: var(--muted); text-decoration: none; font-size: .92rem; font-weight: 500; white-space: nowrap; transition: color .2s; }
+  .nav ul a:hover, .nav ul a.active { color: var(--ink); }
+  .nav ul a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 2px; border-radius: 2px; background: var(--ink); }
+  .theme-btn { flex: none; width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--ink); cursor: pointer; display: grid; place-items: center; }
+  .theme-btn svg { width: 18px; height: 18px; }
+  .theme-btn .sun { display: none; }
+  :root[data-theme="dark"] .theme-btn .sun { display: block; }
+  :root[data-theme="dark"] .theme-btn .moon { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-btn .sun { display: block; }
+    :root:not([data-theme="light"]) .theme-btn .moon { display: none; }
+  }
+  .menu-btn { display: none; margin-left: auto; font: 600 .9rem var(--sans); color: var(--ink); background: var(--surface);
+    border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; cursor: pointer; }
+  @media (max-width: 760px) {
+    .menu-btn { display: inline-block; }
+    .nav nav { position: absolute; top: 64px; left: 0; right: 0; background: var(--bg); border-bottom: 1px solid var(--line); display: none; }
+    header.nav.open nav { display: block; }
+    .nav ul { flex-direction: column; gap: 0; padding: 8px 20px 14px; }
+    .nav ul a { display: block; padding: 8px 0; font-size: 1rem; }
+    .nav ul a.active::after { display: none; }
+  }
+
+  /* Hero */
+  .hero { padding: 56px 0 36px; display: grid; grid-template-columns: 1fr 168px; gap: 40px; align-items: start; }
+  .hero h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(2.4rem, 5vw, 3.3rem); line-height: 1.08; margin: 0 0 6px; color: var(--ink); }
+  .role { font-size: 1.08rem; color: var(--muted); margin: 0 0 18px; }
+  .role strong { color: var(--text); font-weight: 600; }
+  .pitch { font-size: 1.16rem; line-height: 1.6; margin: 0 0 20px; max-width: 46rem; }
+  .status { display: inline-flex; align-items: center; gap: 10px; background: var(--hl-bg); border: 1px solid #e8d3a6; border: 1px solid color-mix(in srgb, var(--gold) 45%, transparent);
+    color: var(--text); padding: 6px 14px; border-radius: 999px; font-size: .92rem; font-weight: 500; margin-bottom: 22px; }
+  .status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #2e9d5b; box-shadow: 0 0 0 3px rgba(46,157,91,.25); }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--surface); color: var(--text); text-decoration: none; font-weight: 500; font-size: .93rem; }
+  .btn:hover { border-color: var(--ink); color: var(--ink); }
+  .btn.primary { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+  .btn.primary:hover { color: var(--bg); opacity: .9; }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .portrait { width: 168px; height: 168px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(140deg, #16325c, #2b5a96);
+    color: #f3d9a4; font: 600 3.6rem var(--serif); letter-spacing: .02em; box-shadow: 0 10px 30px rgba(22,50,92,.18); overflow: hidden; }
+  .portrait img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; padding-top: 36px; } .portrait { width: 112px; height: 112px; font-size: 2.4rem; order: -1; } }
+
+  /* Sections */
+  section { padding: 40px 0; border-top: 1px solid var(--line); }
+  h2 { font-family: var(--serif); font-weight: 600; font-size: 2rem; color: var(--ink); margin: 0 0 6px; }
+  .lede { color: var(--muted); margin: 0 0 26px; max-width: 46rem; }
+  h3 { font-size: 1.12rem; margin: 0; line-height: 1.35; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+  .chips li { background: var(--chip); color: var(--chip-text); border-radius: 999px; padding: 4px 12px; font-size: .86rem; font-weight: 500; }
+
+  /* Focus areas */
+  .focus { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .focus .card { border-top: 3px solid var(--ink); }
+  .focus .card.gold { border-top-color: var(--gold); }
+  .focus p { margin: 8px 0 0; color: var(--muted); font-size: .95rem; }
+  @media (max-width: 860px) { .focus { grid-template-columns: 1fr; } }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
+
+  /* Numbers */
+  .numbers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 26px; }
+  .num { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; }
+  .num b { display: block; font: 600 2rem/1.1 var(--serif); color: var(--ink); }
+  .num span { display: block; font-size: .86rem; color: var(--muted); margin-top: 6px; line-height: 1.45; }
+  @media (max-width: 860px) { .numbers { grid-template-columns: repeat(2, 1fr); } }
+  .note { font-size: .8rem; color: var(--muted); margin: 10px 0 0; }
+
+  /* Timeline */
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
+  .timeline::before { content: ""; position: absolute; top: 9px; left: 8px; right: 8px; height: 2px; background: var(--line); }
+  .timeline li { position: relative; padding-top: 28px; font-size: .9rem; }
+  .timeline li::before { content: ""; position: absolute; top: 2px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); border: 3px solid var(--ink); }
+  .timeline li.now::before { background: var(--gold); border-color: var(--gold); }
+  .timeline .when { display: block; font-weight: 600; color: var(--ink); }
+  .timeline .what { display: block; font-weight: 500; }
+  .timeline .where { display: block; color: var(--muted); }
+  @media (max-width: 860px) {
+    .timeline { grid-template-columns: 1fr; gap: 0; }
+    .timeline::before { top: 8px; bottom: 8px; left: 7px; right: auto; width: 2px; height: auto; }
+    .timeline li { padding: 0 0 16px 30px; }
+  }
+
+  /* Featured work */
+  .feature { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 28px; margin-bottom: 18px; }
+  .feature.star { border: 1px solid #b9c4d6; border: 1px solid color-mix(in srgb, var(--ink) 35%, var(--line)); box-shadow: 0 8px 30px rgba(22,50,92,.07); }
+  .feature header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 16px; align-items: baseline; margin-bottom: 4px; }
+  .feature h3 { font-family: var(--serif); font-size: 1.5rem; font-weight: 600; color: var(--ink); }
+  .feature .meta { color: var(--muted); font-size: .9rem; white-space: nowrap; }
+  .feature .org { color: var(--muted); margin: 0 0 12px; font-weight: 500; }
+  .tag { display: inline-block; font-size: .72rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--gold);
+    border: 1px solid #dcc394; border: 1px solid color-mix(in srgb, var(--gold) 50%, transparent); border-radius: 999px; padding: 2px 9px; margin-bottom: 10px; }
+  .feature .q { font-family: var(--serif); font-size: 1.22rem; line-height: 1.45; margin: 4px 0 14px; }
+  .feature ul.pts { margin: 0 0 14px; padding-left: 20px; }
+  .feature ul.pts li { margin-bottom: 7px; }
+  .feature ul.pts li::marker { color: var(--ink); }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 860px) { .two { grid-template-columns: 1fr; } }
+  .result { background: var(--hl-bg); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 0 0 14px; font-size: .95rem; }
+  .result b { color: var(--text); }
+  .feature .more { font-weight: 500; font-size: .93rem; }
+  .h4 { font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 16px 0 8px; }
+
+  /* Other projects */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grid3 .card p { margin: 8px 0 12px; color: var(--muted); font-size: .94rem; }
+  .grid3 .card a.repo { font-size: .9rem; font-weight: 500; }
+  @media (max-width: 860px) { .grid3 { grid-template-columns: 1fr; } }
+
+  /* Publications */
+  .pubs { list-style: none; margin: 0; padding: 0; }
+  .pubs li { padding: 12px 0; border-bottom: 1px dashed var(--line); }
+  .pubs li:last-child { border-bottom: 0; }
+  .pubs .t { font-weight: 600; }
+  .pubs .a { color: var(--muted); font-size: .92rem; }
+  .pubs .a b { color: var(--text); font-weight: 600; }
+  .pubs .v { font-style: italic; font-size: .92rem; color: var(--muted); }
+  .pubs .lk { font-size: .86rem; margin-left: 6px; }
+  details.allpubs { margin-top: 18px; }
+  details.allpubs summary { cursor: pointer; font-weight: 600; color: var(--ink); }
+
+  /* Skills */
+  .skills { display: grid; grid-template-columns: 200px 1fr; gap: 14px 24px; align-items: start; }
+  .skills dt { font-weight: 600; padding-top: 3px; }
+  .skills dd { margin: 0; }
+  @media (max-width: 760px) { .skills { grid-template-columns: 1fr; gap: 6px; } .skills dd { margin-bottom: 12px; } }
+
+  /* Contact */
+  .contact { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; }
+  footer { border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--muted); font-size: .86rem; }
+
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media print {
+    header.nav, .theme-btn, .menu-btn { display: none; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
 <body>
-	<!-- Header -->
-	<my-header></my-header>
+<a class="skip" href="#main">Skip to content</a>
 
-	<!-- Search -->
-	<my-search></my-search>
+<header class="nav" id="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Hieu T. Le</a>
+    <button class="menu-btn" aria-expanded="false" aria-controls="sections">Menu</button>
+    <nav aria-label="Sections" id="sections">
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Featured work</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="theme-btn" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </div>
+</header>
 
-	<!-- Featured articles -->
-	<section class="featured-articles section section-header-offset">
+<main id="main" class="wrap">
 
-		<div class="featured-articles-container container d-grid">
+  <!-- Hero -->
+  <div class="hero">
+    <div>
+      <h1>Hieu T. Le</h1>
+      <p class="role"><strong>Machine Learning Engineer</strong> · Ph.D. Candidate, Electrical Engineering, Texas A&amp;M University</p>
+      <p class="pitch">I work on <strong>LLM post-training</strong> (supervised fine-tuning and reinforcement learning with verifiable rewards: GRPO and its variants) and on <strong>agentic LLM systems</strong> built to run reliably in production.</p>
+      <div class="status">Ph.D. expected December 2026 · Open to full-time ML / LLM roles</div>
+      <div class="links">
+        <a class="btn primary" href="assets/Hieu_Le_Resume.pdf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg>Résumé (PDF)</a>
+        <a class="btn" href="https://github.com/hieutrungle">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.7 18.3 5 18.3 5c.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .5z"/></svg>GitHub</a>
+        <a class="btn" href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 1 9l11 7 9-5.7V17h2V9L12 2zm-6.5 11.3V17c0 1.9 2.9 4 6.5 4s6.5-2.1 6.5-4v-3.7L12 17.4l-6.5-4.1z"/></svg>Google Scholar</a>
+        <a class="btn" href="https://www.linkedin.com/in/hieu-le-54648b192/">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 2H3.6A1.6 1.6 0 0 0 2 3.6v16.8A1.6 1.6 0 0 0 3.6 22h16.8a1.6 1.6 0 0 0 1.6-1.6V3.6A1.6 1.6 0 0 0 20.4 2zM8 19H5V9.5h3V19zM6.5 8.2a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5S12.8 13 12.8 14.3V19h-3V9.5h2.8v1.3h.1a3.1 3.1 0 0 1 2.8-1.5c3 0 3.5 2 3.5 4.5V19z"/></svg>LinkedIn</a>
+        <a class="btn" href="mailto:hieu.tg.le@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>Email</a>
+      </div>
+    </div>
+    <!-- To use a photo: replace "HL" with <img src="assets/profile.jpg" alt="Portrait of Hieu T. Le"> -->
+    <div class="portrait" aria-hidden="true">HL</div>
+  </div>
 
-			<div class="featured-content d-grid">
+  <!-- About -->
+  <section id="about" aria-labelledby="about-h">
+    <h2 id="about-h">About</h2>
+    <p class="lede">I build the training and evaluation pipelines that turn base models into reliable reasoners and agents. My current research asks whether RL post-training with verifiable rewards <em>sharpens</em> what a model already solves or <em>expands</em> what it can solve at all. At Uber I built a closed-loop multi-agent LLM system that automates ML experimentation from idea to distributed training. My Ph.D. covers hierarchical multi-agent RL deployed on real hardware.</p>
 
-				<div class="headline-banner">
-					<h3 class="headline fancy-border">
-						<span class="place-items-center">Important Blog</span>
-					</h3>
-					<span class="headline-description">Building complete applications with TensorFlow/Pytorch</span>
-				</div>
+    <div class="focus">
+      <div class="card">
+        <h3>LLM post-training</h3>
+        <p>SFT and LoRA / QLoRA / full-parameter fine-tuning; RLVR with GRPO, Dr.GRPO, DAPO and RS-GRPO; verifier-based rewards; pass@k evaluation on a frozen benchmark suite.</p>
+      </div>
+      <div class="card">
+        <h3>Agentic systems</h3>
+        <p>Multi-agent LLM orchestration with isolated implementer agents and an independent verification agent; RL-trained agents that manage their own context.</p>
+      </div>
+      <div class="card gold">
+        <h3>Training at scale</h3>
+        <p>verl, vLLM, TRL, Ray and FSDP on multi-GPU Slurm clusters; memory and throughput tuning; fault-tolerant checkpoint and resume.</p>
+      </div>
+    </div>
 
-				<a href="./post.html" class="article featured-article featured-article-1">
-					<img src="./assets/images/featured/featured-1.jpg" alt="" class="article-image">
-					<span class="article-category">Pytorch</span>
+    <div class="numbers">
+      <div class="num"><b>3M</b><span>added global booked trips from pricing models I shipped at Uber</span></div>
+      <div class="num"><b>95%</b><span>of faulty model changes caught by my verification agent before they used GPUs (Uber)</span></div>
+      <div class="num"><b>1 hr</b><span>experiment cycle time with the multi-agent AutoResearch system (Uber)</span></div>
+      <div class="num"><b>20%</b><span>less wireless bandwidth at equal perceived video quality (Qualcomm)</span></div>
+      <div class="num"><b>0.40 → 0.59</b><span>held-out pass@1 after a 2B-model GRPO pilot run (sharpen-or-expand)</span></div>
+      <div class="num"><b>8×</b><span>signal enhancement from hierarchical multi-agent RL on real hardware (Ph.D.)</span></div>
+      <div class="num"><b>15</b><span>publications, incl. IEEE TMLCN and IEEE VTC</span></div>
+      <div class="num"><b>79</b><span>citations · h-index 5</span></div>
+    </div>
+    <p class="note">Citation figures from Google Scholar, November 2026.</p>
 
-					<div class="article-data-container">
+    <div class="h4" style="margin-top:30px">Career path</div>
+    <ol class="timeline">
+      <li><span class="when">2021–2025</span><span class="what">M.S., Electrical Engineering</span><span class="where">Texas A&amp;M University</span></li>
+      <li><span class="when">2024</span><span class="what">Research Assistant, ML systems</span><span class="where">High Performance Research Computing, Texas A&amp;M</span></li>
+      <li><span class="when">Fall 2025</span><span class="what">Engineering Intern</span><span class="where">Qualcomm, San Diego</span></li>
+      <li><span class="when">Summer 2026</span><span class="what">Machine Learning Intern</span><span class="where">Uber, Rider Pricing &amp; Incentives</span></li>
+      <li class="now"><span class="when">Dec 2026</span><span class="what">Ph.D., Electrical Engineering</span><span class="where">Texas A&amp;M University (advisor: Sabit Ekin)</span></li>
+    </ol>
+  </section>
 
-						<div class="article-data">
-							<span>Oct 17th 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>8 Min read</span>
-						</div>
+  <!-- Featured work -->
+  <section id="work" aria-labelledby="work-h">
+    <h2 id="work-h">Featured work</h2>
+    <p class="lede">The four projects that best show what I do: LLM post-training research, agentic systems in production, on-device ML, and RL on physical hardware.</p>
 
-						<h3 class="title article-title">NetCDF data pipeline with Pytorch and Xarray/Dask</h3>
+    <!-- 1. Sharpen or Expand -->
+    <article class="feature star">
+      <span class="tag">Current focus · LLM post-training</span>
+      <header>
+        <h3>Sharpen or Expand? RLVR post-training study</h3>
+        <span class="meta">2026 – present</span>
+      </header>
+      <p class="org">Independent research · Texas A&amp;M FASTER GPU cluster</p>
+      <p class="q">Does reinforcement learning with verifiable rewards <em>sharpen</em> what a reasoning model already solves (higher pass@1), or <em>expand</em> what it can solve at all (higher pass@k at large k)?</p>
+      <div class="two">
+        <div>
+          <div class="h4">Study design</div>
+          <ul class="pts">
+            <li>Qwen3.5-4B-Base, starting from one frozen SFT checkpoint; compares <strong>DPO, GRPO, Dr.GRPO, DAPO and RS-GRPO</strong> at equal rollout-token budgets.</li>
+            <li>A frozen, hash-pinned evaluation suite: MATH-500, AIME 2024/2025 and OlympiadBench, a held-out split, and a contamination-resistant set. The RL data pool is decontaminated against all three.</li>
+            <li>Unbiased pass@k for k up to 64, plus problem-level transition tables (solved → unsolved and back).</li>
+          </ul>
+        </div>
+        <div>
+          <div class="h4">Engineering</div>
+          <ul class="pts">
+            <li>Built on <strong>verl, vLLM and TRL</strong> with FSDP2, run under Slurm and Apptainer; measured LoRA vs. full-BF16 memory and throughput on 4×A40.</li>
+            <li>Fault-tolerant runs: a killed job resumes with matching metrics. HF export merges LoRA in FP32, and identity runs reproduce the base model bit for bit.</li>
+            <li>Found and fixed framework issues: checkpoint pruning across resumes, Dr.GRPO loss normalization under dynamic batching, and a weight-sync crash for tensors over 2 GB.</li>
+          </ul>
+        </div>
+      </div>
+      <p class="result"><b>Pilot result (Qwen3.5-2B GRPO, 37 steps):</b> training reward rose from 0.33 to 0.48 (5.9 standard errors). Pass@1 rose from 0.41 to 0.53 on the standard benchmarks and from 0.40 to 0.59 on the held-out split. Part of the gain comes from fewer truncated answers, which is exactly the kind of confound the full 4B study is designed to separate.</p>
+      <ul class="chips" aria-label="Technologies">
+        <li>GRPO</li><li>RLVR</li><li>SFT</li><li>LoRA</li><li>verl</li><li>vLLM</li><li>TRL</li><li>FSDP2</li><li>Slurm</li>
+      </ul>
+      <p class="more" style="margin:14px 0 0"><a href="https://github.com/hieutrungle/sharpen-or-expand">github.com/hieutrungle/sharpen-or-expand →</a></p>
+    </article>
 
-					</div>
-				</a>
+    <!-- 2. Uber -->
+    <article class="feature star">
+      <span class="tag">Agentic systems · Production ML</span>
+      <header>
+        <h3>Uber: multi-agent AutoResearch and pricing models</h3>
+        <span class="meta">Jun – Aug 2026</span>
+      </header>
+      <p class="org">Machine Learning Intern, Rider Pricing &amp; Incentives · California</p>
+      <ul class="pts">
+        <li>Built a <strong>closed-loop multi-agent AutoResearch LLM system</strong> that automates ML workflows from ideation to distributed Ray training. It is model-agnostic and cut experiment cycle time to <strong>1 hour</strong>.</li>
+        <li>Made it reliable by isolating implementer agents and adding an <strong>independent verification agent</strong>, which caught <strong>95%</strong> of faulty model changes before they used GPU resources.</li>
+        <li>Trained, evaluated and shipped launch-ready, continuously monitored ML pricing models in new markets, adding <strong>3 million</strong> global booked trips.</li>
+      </ul>
+      <ul class="chips" aria-label="Technologies">
+        <li>LLM agents</li><li>Multi-agent orchestration</li><li>Ray</li><li>Pricing models</li><li>Model monitoring</li>
+      </ul>
+    </article>
 
-				<a href="./post.html" class="article featured-article featured-article-2">
-					<img src="./assets/images/featured/featured-2.jpg" alt="" class="article-image">
-					<span class="article-category">Computer Graphic</span>
+    <div class="two">
+      <!-- 3. Qualcomm -->
+      <article class="feature">
+        <span class="tag">On-device ML · Real-time systems</span>
+        <header>
+          <h3>Qualcomm: ML-driven video streaming</h3>
+          <span class="meta">Sep – Dec 2025</span>
+        </header>
+        <p class="org">Engineering Intern · San Diego, CA</p>
+        <ul class="pts">
+          <li>Built an ML-driven resource allocation system using <strong>Vision Transformer</strong> models for near-real-time visual quality assessment, cutting wireless bandwidth by <strong>20%</strong> at equal perceived quality.</li>
+          <li>Designed a multi-threaded GStreamer-WebRTC streaming stack with <strong>180 ms</strong> background C++ LibTorch inference that drives server-side adaptive bitrate without interrupting the stream.</li>
+          <li>Deployed an asynchronous ingest-preprocess-stream training pipeline for models that predict rate-distortion curves (<strong>R² = 0.89</strong>).</li>
+        </ul>
+        <ul class="chips" aria-label="Technologies">
+          <li>ViT</li><li>C++ / LibTorch</li><li>GStreamer</li><li>WebRTC</li>
+        </ul>
+      </article>
 
-					<div class="article-data-container">
+      <!-- 4. PhD -->
+      <article class="feature">
+        <span class="tag">Ph.D. research · Multi-agent RL</span>
+        <header>
+          <h3>Ph.D.: learning to steer wireless signals</h3>
+          <span class="meta">2021 – Dec 2026</span>
+        </header>
+        <p class="org">Texas A&amp;M University · Advisor: <a href="https://sabit-ekin.github.io/">Sabit Ekin</a></p>
+        <ul class="pts">
+          <li>Developed a <strong>hierarchical multi-agent RL</strong> framework that controls physical reflector arrays without channel-state information, achieving <strong>8×</strong> signal enhancement and outperforming MAPPO baselines.</li>
+          <li>Led a cross-functional team that took a reconfigurable hardware testbed from prototype to experimental validation.</li>
+          <li>Combined particle-swarm and genetic search with gradient descent through Sionna's differentiable ray tracer, improving throughput by <strong>15%</strong> over gradient descent alone.</li>
+        </ul>
+        <ul class="chips" aria-label="Technologies">
+          <li>MARL</li><li>Deep RL</li><li>Differentiable simulation</li><li>Sionna</li>
+        </ul>
+      </article>
+    </div>
+  </section>
 
-						<div class="article-data">
-							<span>Dec 6th 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>4 Min read</span>
-						</div>
+  <!-- Other projects -->
+  <section id="projects" aria-labelledby="projects-h">
+    <h2 id="projects-h">More projects</h2>
+    <p class="lede">Smaller and in-progress projects on RL fine-tuning of LLMs and VLMs.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>Carry-On</h3>
+        <p>An LLM agent that learns with RL what to keep in its own context under a fixed active-token budget. Work in progress.</p>
+        <ul class="chips"><li>Agents</li><li>GRPO</li><li>Context management</li></ul>
+        <p style="margin:12px 0 0"><a class="repo" href="https://github.com/hieutrungle/carryon">Repository →</a></p>
+      </div>
+      <div class="card">
+        <h3>LLM dynamic pricing via GRPO</h3>
+        <p>Fine-tuned Gemma 4 E4B with GRPO to act as a pricing agent in a custom tensorized PyTorch supply-demand environment, using 4-bit QLoRA and gradient checkpointing to fit multi-generation rollouts on one GPU.</p>
+        <ul class="chips"><li>GRPO</li><li>QLoRA</li><li>RL environments</li></ul>
+        <p style="margin:12px 0 0"><a class="repo" href="https://github.com/hieutrungle/pricing_llm">Repository →</a></p>
+      </div>
+      <div class="card">
+        <h3>Micro-Fab VLM</h3>
+        <p>GRPO fine-tuning of a multimodal Gemma 4 model for semiconductor wafer-defect inspection on synthetic data, with LoRA merging and an asynchronous FastAPI serving gateway.</p>
+        <ul class="chips"><li>VLM</li><li>GRPO</li><li>Serving</li></ul>
+        <p style="margin:12px 0 0"><a class="repo" href="https://github.com/hieutrungle/micro-fab-llm">Repository →</a></p>
+      </div>
+    </div>
+  </section>
 
-						<h3 class="title article-title">Interactive Computer Graphic Note</h3>
+  <!-- Publications -->
+  <section id="publications" aria-labelledby="pubs-h">
+    <h2 id="pubs-h">Publications</h2>
+    <p class="lede">Selected first-author work. Full list on <a href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">Google Scholar</a>.</p>
+    <ul class="pubs">
+      <li>
+        <div class="t">Learning to Reflect: Hierarchical Multi-Agent Reinforcement Learning for CSI-Free mmWave Beam-Focusing</div>
+        <div class="a"><b>H. Le</b>, O. Bedir, M. Ibrahim, J. Tao, S. Ekin</div>
+        <div class="v">arXiv preprint, 2026 <a class="lk" href="https://arxiv.org/abs/2603.07370">arXiv:2603.07370</a></div>
+      </li>
+      <li>
+        <div class="t">Learning to Focus: CSI-Free Hierarchical MARL for Reconfigurable Reflectors</div>
+        <div class="a"><b>H. Le</b>, M. Ibrahim, O. Bedir, J. Tao, S. Ekin</div>
+        <div class="v">arXiv preprint, 2026 <a class="lk" href="https://arxiv.org/abs/2604.05165">arXiv:2604.05165</a></div>
+      </li>
+      <li>
+        <div class="t">Bypassing the CSI Bottleneck: MARL-Driven Spatial Control for Reflector Arrays</div>
+        <div class="a"><b>H. Le</b>, O. Bedir, M. Ibrahim, J. Tao, S. Ekin</div>
+        <div class="v">arXiv preprint, 2026 <a class="lk" href="https://arxiv.org/abs/2604.05162">arXiv:2604.05162</a></div>
+      </li>
+      <li>
+        <div class="t">Signal Whisperers: Enhancing Wireless Reception Using DRL-Guided Reflector Arrays</div>
+        <div class="a"><b>H. Le</b>, O. Bedir, M. Ibrahim, J. Tao, S. Ekin</div>
+        <div class="v">IEEE Transactions on Machine Learning in Communications and Networking, 2025 <a class="lk" href="https://doi.org/10.1109/TMLCN.2025.3650440">DOI</a></div>
+      </li>
+      <li>
+        <div class="t">Guiding Wireless Signals with Arrays of Metallic Linear Fresnel Reflectors: A Low-cost, Frequency-versatile, and Practical Approach</div>
+        <div class="a"><b>H. Le</b>, O. Bedir, M. Ibrahim, J. Tao, S. Ekin</div>
+        <div class="v">IEEE 100th Vehicular Technology Conference (VTC2024-Fall), 2024 <a class="lk" href="https://doi.org/10.1109/VTC2024-Fall63153.2024.10757704">DOI</a></div>
+      </li>
+      <li>
+        <div class="t">Hierarchical Autoencoder-based Lossy Compression for Large-scale High-resolution Scientific Data</div>
+        <div class="a"><b>H. Le</b>, J. Tao</div>
+        <div class="v">Computing &amp; AI Connect, 2024 <a class="lk" href="https://doi.org/10.69709/CAIC.2024.193132">DOI</a></div>
+      </li>
+      <li>
+        <div class="t">Insight Gained from Migrating a Machine Learning Model to Intelligence Processing Units</div>
+        <div class="a"><b>H. Le</b>, Z. He, M. Le, D. Chakravorty, L. M. Perez, A. Chilumuru, Y. Yao, J. Chen</div>
+        <div class="v">Practice and Experience in Advanced Research Computing (PEARC), 2024</div>
+      </li>
+    </ul>
 
-					</div>
-				</a>
+    <details class="allpubs">
+      <summary>Co-authored publications (8)</summary>
+      <ul class="pubs">
+        <li><div class="t">Benchmarking the Performance of Accelerators on National Cyberinfrastructure Resources for Artificial Intelligence / Machine Learning Workloads</div>
+          <div class="a">A. Nasari, <b>H. Le</b>, R. Lawrence, Z. He, X. Yang, M. Krell, A. Tsyplikhin, et al.</div><div class="v">PEARC, 2022</div></li>
+        <li><div class="t">Porting AI/ML Models to Intelligence Processing Units (IPUs)</div>
+          <div class="a">A. Nasari, L. Zhai, Z. He, <b>H. Le</b>, S. Cui, D. Chakravorty, J. Tao, H. Liu</div><div class="v">PEARC, 2023 <a class="lk" href="https://doi.org/10.1145/3569951.3603632">DOI</a></div></li>
+        <li><div class="t">Development of a Training Framework for Novel Accelerators</div>
+          <div class="a">Z. He, S. Nite, J. Winchell, A. Nasari, <b>H. Le</b>, J. Tao, D. Chakravorty, L. Perez, et al.</div><div class="v">IEEE Frontiers in Education Conference (FIE), 2023</div></li>
+        <li><div class="t">Expediting Ionic Conductivity Prediction of Solid-State Battery Electrodes Using Machine Learning</div>
+          <div class="a">M. Le, A. Yao, A. Zhang, <b>H. Le</b>, Z. Chen, X. Wu, L. Zhao, J. Chen</div><div class="v">IEEE Journal on Multiscale and Multiphysics Computational Techniques, 2024</div></li>
+        <li><div class="t">Predicting Ionic Conductivity of Solid-State Battery Cathodes Using Machine Learning</div>
+          <div class="a">M. Le, <b>H. Le</b>, L. Zhao, X. Wu, J. Chen, Y. Yao</div><div class="v">USNC-URSI National Radio Science Meeting, 2024</div></li>
+        <li><div class="t">Smart Communities, Smart Responders — Artificial Intelligence for Internet of Things Competition: A Case Study in Organizing a Public Safety Innovation Challenge</div>
+          <div class="a">H. Raghukumar, M. Mahdavi, A. Cassity, N. Hatch, H. Santos, L. Arias, et al.</div><div class="v">IEEE World Forum on Public Safety Technology (WFPST), 2024</div></li>
+        <li><div class="t">Dynamic Data-Driven Digital Twin Testbed for Enhanced First Responder Training and Communication</div>
+          <div class="a">A. Cassity, <b>H. Le</b>, H. Santos, E. Priest, J. Tao</div><div class="v">International Conference on Dynamic Data Driven Applications Systems (DDDAS), Lecture Notes in Computer Science <a class="lk" href="https://doi.org/10.1007/978-3-031-94895-4_10">DOI</a></div></li>
+        <li><div class="t">Dynamic Data-Driven Digital Twin Testbed for Enhanced First Responder</div>
+          <div class="a">A. Cassity, <b>H. Le</b>, H. Santos, E. Priest, J. Tao</div><div class="v">Dynamic Data Driven Applications Systems: 5th International Conference, 2025</div></li>
+      </ul>
+    </details>
+  </section>
 
-				<a href="./post.html" class="article featured-article featured-article-3">
-					<img src="./assets/images/featured/featured-3.jpg" alt="" class="article-image">
-					<span class="article-category">Neural Field</span>
+  <!-- Skills -->
+  <section id="skills" aria-labelledby="skills-h">
+    <h2 id="skills-h">Skills</h2>
+    <dl class="skills">
+      <dt>LLM post-training</dt>
+      <dd><ul class="chips"><li>SFT</li><li>LoRA / QLoRA</li><li>Full-parameter BF16</li><li>GRPO</li><li>Dr.GRPO</li><li>DAPO</li><li>RS-GRPO</li><li>DPO</li><li>Verifier-based rewards</li><li>pass@k evaluation</li></ul></dd>
+      <dt>Agentic systems</dt>
+      <dd><ul class="chips"><li>Multi-agent orchestration</li><li>Verification agents</li><li>Agentic workflows</li><li>RL-trained agents</li></ul></dd>
+      <dt>Training &amp; inference</dt>
+      <dd><ul class="chips"><li>PyTorch</li><li>verl</li><li>vLLM</li><li>TRL</li><li>Ray</li><li>FSDP</li><li>Unsloth</li><li>Liger kernels</li><li>LibTorch</li></ul></dd>
+      <dt>Reinforcement learning</dt>
+      <dd><ul class="chips"><li>PPO / MAPPO</li><li>Hierarchical MARL</li><li>Custom RL environments</li><li>Differentiable simulation</li></ul></dd>
+      <dt>Infrastructure</dt>
+      <dd><ul class="chips"><li>Slurm</li><li>Apptainer</li><li>Multi-GPU clusters</li><li>GitHub Actions CI</li><li>GStreamer / WebRTC</li></ul></dd>
+      <dt>Languages</dt>
+      <dd><ul class="chips"><li>Python</li><li>C++</li><li>C</li><li>SQL</li></ul></dd>
+    </dl>
+  </section>
 
-					<div class="article-data-container">
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p class="lede">I am looking for full-time roles in LLM post-training, RL for language models and agentic systems after I finish my Ph.D. in December 2026. Email is the fastest way to reach me.</p>
+    <div class="contact">
+      <a class="btn primary" href="mailto:hieu.tg.le@gmail.com">hieu.tg.le@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/hieu-le-54648b192/">LinkedIn</a>
+      <a class="btn" href="https://github.com/hieutrungle">GitHub</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">Google Scholar</a>
+      <a class="btn" href="assets/Hieu_Le_Resume.pdf">Résumé (PDF)</a>
+    </div>
+    <p class="note" style="margin-top:14px">College Station, Texas · Texas A&amp;M University</p>
+  </section>
+</main>
 
-						<div class="article-data">
-							<span>Dec 5th 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>5 Min read</span>
-						</div>
+<footer>
+  <div class="wrap">© 2026 Hieu T. Le · Last updated November 2026</div>
+</footer>
 
-						<h3 class="title article-title">Fourier feature mapping for Neural Field</h3>
-
-					</div>
-				</a>
-
-			</div>
-
-			<!-- Side bar -->
-			<div class="sidebar d-grid">
-
-				<h3 class="title featured-content-title">Trending Tutorial</h3>
-
-				<a href="#" class="trending-news-box">
-					<div class="trending-news-img-box">
-						<span class="trending-number place-items-center">01</span>
-						<img src="./assets/images/trending/trending_1.jpg" alt="" class="article-image">
-					</div>
-
-					<div class="trending-news-data">
-
-						<div class="article-data">
-							<span>23 Dec 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>3 Min read</span>
-						</div>
-
-						<h3 class="title article-title">A complete program to train a custom model with Tensorflow</h3>
-
-					</div>
-				</a>
-
-				<a href="#" class="trending-news-box">
-					<div class="trending-news-img-box">
-						<span class="trending-number place-items-center">02</span>
-						<img src="./assets/images/trending/trending_2.jpg" alt="" class="article-image">
-					</div>
-
-					<div class="trending-news-data">
-
-						<div class="article-data">
-							<span>23 Dec 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>3 Min read</span>
-						</div>
-
-						<h3 class="title article-title">Building a program to train any model with Pytorch</h3>
-
-					</div>
-				</a>
-
-				<a href="#" class="trending-news-box">
-					<div class="trending-news-img-box">
-						<span class="trending-number place-items-center">03</span>
-						<img src="./assets/images/trending/trending_3.jpg" alt="" class="article-image">
-					</div>
-
-					<div class="trending-news-data">
-
-						<div class="article-data">
-							<span>23 Dec 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>3 Min read</span>
-						</div>
-
-						<h3 class="title article-title">Interactive computer graphic with rasterization and ray tracing</h3>
-
-					</div>
-				</a>
-
-				<a href="#" class="trending-news-box">
-					<div class="trending-news-img-box">
-						<span class="trending-number place-items-center">04</span>
-						<img src="./assets/images/trending/trending_4.jpg" alt="" class="article-image">
-					</div>
-
-					<div class="trending-news-data">
-
-						<div class="article-data">
-							<span>23 Dec 2022</span>
-							<span class="article-data-spacer"></span>
-							<span>3 Min read</span>
-						</div>
-
-						<h3 class="title article-title">Fourier feature mapping for Neural Field</h3>
-
-					</div>
-				</a>
-
-			</div>
-		</div>
-	</section>
-
-	<!-- Reserve sections -->
-
-	<!-- Footer -->
-	<my-footer></my-footer>
-
-	<!-- Swiper -->
-	<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-
-	<!-- Custom script -->
-	<script src="./assets/js/main.js"></script>
+<script>
+  (function () {
+    var root = document.documentElement;
+    // Theme toggle: flips relative to what is currently shown, then remembers the choice
+    document.querySelector(".theme-btn").addEventListener("click", function () {
+      var dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+      root.dataset.theme = dark ? "light" : "dark";
+      try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+    });
+    // Mobile menu
+    var header = document.querySelector("header.nav"), btn = document.querySelector(".menu-btn");
+    btn.addEventListener("click", function () {
+      var open = header.classList.toggle("open"); btn.setAttribute("aria-expanded", open);
+    });
+    document.querySelectorAll(".nav ul a").forEach(function (a) {
+      a.addEventListener("click", function () { header.classList.remove("open"); btn.setAttribute("aria-expanded", false); });
+    });
+    // Scroll-spy: highlight the section in view
+    var links = {}, sections = [];
+    document.querySelectorAll(".nav ul a").forEach(function (a) {
+      var s = document.querySelector(a.getAttribute("href")); if (s) { links[s.id] = a; sections.push(s); }
+    });
+    if ("IntersectionObserver" in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            Object.values(links).forEach(function (l) { l.classList.remove("active"); });
+            links[e.target.id].classList.add("active");
+          }
+        });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      sections.forEach(function (s) { io.observe(s); });
+    }
+  })();
+</script>
 </body>
-
 </html>
