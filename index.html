@@ -173,7 +173,7 @@
   .seg.intern em { color: var(--text); }
   .seg.minor { background: color-mix(in srgb, var(--ink) 35%, var(--bg)); background-color: #9fb0c8; }
   .seg.minor em { color: var(--muted); font-weight: 500; }
-  .side-cards { display: grid; grid-template-columns: 1fr 1fr .85fr; gap: 14px; margin-top: 6px; }
+  .side-cards { display: grid; grid-template-columns: .85fr 1fr 1fr; gap: 14px; margin-top: 6px; }
   .sc { display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; font-size: .9rem; }
   .sc b { font-size: 1rem; }
   .sc span { color: var(--muted); }
@@ -261,12 +261,12 @@
     <button class="menu-btn" aria-expanded="false" aria-controls="sections">Menu</button>
     <nav aria-label="Sections" id="sections">
       <ul>
+        <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#work">Featured work</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="#skills">Skills</a></li>
-        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
     <button class="theme-btn" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
@@ -302,6 +302,20 @@
     <div class="portrait" aria-hidden="true">HL</div>
   </div>
 
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p class="lede">I am looking for full-time roles in LLM post-training, RL for language models and agentic systems after I finish my Ph.D. in December 2026. Email is the fastest way to reach me.</p>
+    <div class="contact">
+      <a class="btn primary" href="mailto:hieu.tg.le@gmail.com">hieu.tg.le@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/hieu-le-54648b192/">LinkedIn</a>
+      <a class="btn" href="https://github.com/hieutrungle">GitHub</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">Google Scholar</a>
+      <a class="btn" href="assets/Hieu_Le_Resume.pdf">Résumé (PDF)</a>
+    </div>
+    <p class="note" style="margin-top:14px">College Station, Texas · Texas A&amp;M University</p>
+  </section>
+
   <!-- About -->
   <section id="about" aria-labelledby="about-h">
     <h2 id="about-h">About</h2>
@@ -322,18 +336,6 @@
       </div>
     </div>
 
-    <div class="numbers">
-      <div class="num"><b>3M</b><span>added global booked trips from pricing models I shipped at Uber</span></div>
-      <div class="num"><b>95%</b><span>of faulty model changes caught by my verification agent before they used GPUs (Uber)</span></div>
-      <div class="num"><b>1 hr</b><span>experiment cycle time with the multi-agent AutoResearch system (Uber)</span></div>
-      <div class="num"><b>20%</b><span>less wireless bandwidth at equal perceived video quality (Qualcomm)</span></div>
-      <div class="num"><b>0.40 → 0.59</b><span>held-out pass@1 after a 2B-model GRPO pilot run (sharpen-or-expand)</span></div>
-      <div class="num"><b>8×</b><span>signal enhancement from hierarchical multi-agent RL on real hardware (Ph.D.)</span></div>
-      <div class="num"><b>12</b><span>papers published or accepted, incl. IEEE TMLCN and IEEE GLOBECOM 2026</span></div>
-      <div class="num"><b>79</b><span>citations · h-index 5</span></div>
-    </div>
-    <p class="note">Citation figures from Google Scholar, November 2026.</p>
-
     <div class="h4" style="margin-top:30px">Career path</div>
     <p class="tl-lede">Full-time Ph.D. research since 2021, with industry internships and a research appointment alongside it.</p>
     <div class="career" role="img" aria-label="Timeline: Ph.D. at Texas A&amp;M from 2021 to December 2026; alongside it, HPRC research assistant January to June 2024, Qualcomm internship September to December 2025, Uber internship June to August 2026.">
@@ -351,9 +353,9 @@
       </div>
     </div>
     <div class="side-cards">
-      <div class="sc intern"><span class="sc-tag">Internship</span><b>Machine Learning Intern</b><span>Uber · Rider Pricing &amp; Incentives</span><span class="sc-when">Jun – Aug 2026</span></div>
-      <div class="sc intern"><span class="sc-tag">Internship</span><b>Engineering Intern</b><span>Qualcomm · San Diego</span><span class="sc-when">Sep – Dec 2025</span></div>
       <div class="sc minor"><span class="sc-tag">Research appointment</span><b>Research Assistant, ML systems</b><span>High Performance Research Computing, Texas A&amp;M</span><span class="sc-when">Jan – Jun 2024</span></div>
+      <div class="sc intern"><span class="sc-tag">Internship</span><b>Engineering Intern</b><span>Qualcomm · San Diego</span><span class="sc-when">Sep – Dec 2025</span></div>
+      <div class="sc intern"><span class="sc-tag">Internship</span><b>Machine Learning Intern</b><span>Uber · Rider Pricing &amp; Incentives</span><span class="sc-when">Jun – Aug 2026</span></div>
     </div>
   </section>
 
@@ -520,19 +522,6 @@
     </dl>
   </section>
 
-  <!-- Contact -->
-  <section id="contact" aria-labelledby="contact-h">
-    <h2 id="contact-h">Contact</h2>
-    <p class="lede">I am looking for full-time roles in LLM post-training, RL for language models and agentic systems after I finish my Ph.D. in December 2026. Email is the fastest way to reach me.</p>
-    <div class="contact">
-      <a class="btn primary" href="mailto:hieu.tg.le@gmail.com">hieu.tg.le@gmail.com</a>
-      <a class="btn" href="https://www.linkedin.com/in/hieu-le-54648b192/">LinkedIn</a>
-      <a class="btn" href="https://github.com/hieutrungle">GitHub</a>
-      <a class="btn" href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">Google Scholar</a>
-      <a class="btn" href="assets/Hieu_Le_Resume.pdf">Résumé (PDF)</a>
-    </div>
-    <p class="note" style="margin-top:14px">College Station, Texas · Texas A&amp;M University</p>
-  </section>
 </main>
 
 <footer>
