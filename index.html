@@ -154,19 +154,39 @@
   @media (max-width: 860px) { .numbers { grid-template-columns: repeat(2, 1fr); } }
   .note { font-size: .8rem; color: var(--muted); margin: 10px 0 0; }
 
-  /* Timeline */
-  .timeline { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; position: relative; }
-  .timeline::before { content: ""; position: absolute; top: 9px; left: 8px; right: 8px; height: 2px; background: var(--line); }
-  .timeline li { position: relative; padding-top: 28px; font-size: .9rem; }
-  .timeline li::before { content: ""; position: absolute; top: 2px; left: 0; width: 16px; height: 16px; border-radius: 50%; background: var(--surface); border: 3px solid var(--ink); }
-  .timeline li.now::before { background: var(--gold); border-color: var(--gold); }
-  .timeline .when { display: block; font-weight: 600; color: var(--ink); }
-  .timeline .what { display: block; font-weight: 500; }
-  .timeline .where { display: block; color: var(--muted); }
-  @media (max-width: 860px) {
-    .timeline { grid-template-columns: 1fr; gap: 0; }
-    .timeline::before { top: 8px; bottom: 8px; left: 7px; right: auto; width: 2px; height: auto; }
-    .timeline li { padding: 0 0 16px 30px; }
+  /* Career path: Ph.D. as the main lane, other work on a parallel lane, positioned by date */
+  .tl-lede { color: var(--muted); font-size: .92rem; margin: -2px 0 14px; }
+  .career { position: relative; padding-top: 22px; }
+  .axis { position: absolute; top: 0; left: 0; right: 0; height: 100%; pointer-events: none; }
+  .axis .tick { position: absolute; top: 0; transform: translateX(-50%); font-size: .75rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .axis .tick::after { content: ""; position: absolute; left: 50%; top: 18px; height: 130px; border-left: 1px dashed var(--line); }
+  .lane { position: relative; height: 58px; margin-bottom: 10px; }
+  .phd-bar { position: absolute; top: 0; bottom: 0; border-radius: 12px; background: linear-gradient(90deg, #16325c, #2b5a96); color: #fff;
+    display: flex; flex-direction: column; justify-content: center; padding: 0 18px; z-index: 1; box-shadow: 0 6px 18px rgba(22,50,92,.18); }
+  .phd-bar strong { font-size: 1rem; font-weight: 600; }
+  .phd-bar span { font-size: .84rem; opacity: .85; }
+  .lane.side { height: 52px; border-top: 2px solid var(--line); margin-top: 34px; }
+  .lane-label { position: absolute; left: 0; top: -22px; font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .seg { position: absolute; top: -9px; height: 16px; border-radius: 8px; min-width: 14px; z-index: 1; }
+  .seg em { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); font-style: normal; font-size: .8rem; font-weight: 600; white-space: nowrap; }
+  .seg.intern { background: var(--gold); }
+  .seg.intern em { color: var(--text); }
+  .seg.minor { background: color-mix(in srgb, var(--ink) 35%, var(--bg)); background-color: #9fb0c8; }
+  .seg.minor em { color: var(--muted); font-weight: 500; }
+  .side-cards { display: grid; grid-template-columns: 1fr 1fr .85fr; gap: 14px; margin-top: 6px; }
+  .sc { display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; font-size: .9rem; }
+  .sc b { font-size: 1rem; }
+  .sc span { color: var(--muted); }
+  .sc.intern { border-left: 4px solid var(--gold); }
+  .sc.minor { background: transparent; }
+  .sc.minor b { font-weight: 500; font-size: .95rem; }
+  .sc-tag { font-size: .7rem !important; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--gold) !important; }
+  .sc.minor .sc-tag { color: var(--muted) !important; }
+  .sc-when { font-weight: 500; color: var(--text) !important; margin-top: 4px; }
+  @media (max-width: 760px) {
+    .phd-bar { padding: 0 12px; } .phd-bar span { font-size: .76rem; }
+    .seg em { font-size: .68rem; }
+    .side-cards { grid-template-columns: 1fr; }
   }
 
   /* Featured work */
@@ -315,13 +335,26 @@
     <p class="note">Citation figures from Google Scholar, November 2026.</p>
 
     <div class="h4" style="margin-top:30px">Career path</div>
-    <ol class="timeline">
-      <li><span class="when">2021–2025</span><span class="what">M.S., Electrical Engineering</span><span class="where">Texas A&amp;M University</span></li>
-      <li><span class="when">2024</span><span class="what">Research Assistant, ML systems</span><span class="where">High Performance Research Computing, Texas A&amp;M</span></li>
-      <li><span class="when">Fall 2025</span><span class="what">Engineering Intern</span><span class="where">Qualcomm, San Diego</span></li>
-      <li><span class="when">Summer 2026</span><span class="what">Machine Learning Intern</span><span class="where">Uber, Rider Pricing &amp; Incentives</span></li>
-      <li class="now"><span class="when">Dec 2026</span><span class="what">Ph.D., Electrical Engineering</span><span class="where">Texas A&amp;M University (advisor: Sabit Ekin)</span></li>
-    </ol>
+    <p class="tl-lede">Full-time Ph.D. research since 2021, with industry internships and a research appointment alongside it.</p>
+    <div class="career" role="img" aria-label="Timeline: Ph.D. at Texas A&amp;M from 2021 to December 2026; alongside it, HPRC research assistant January to June 2024, Qualcomm internship September to December 2025, Uber internship June to August 2026.">
+      <div class="axis"><span class="tick" style="left:6.25%">2022</span><span class="tick" style="left:25.0%">2023</span><span class="tick" style="left:43.75%">2024</span><span class="tick" style="left:62.5%">2025</span><span class="tick" style="left:81.25%">2026</span></div>
+      <div class="lane">
+        <div class="phd-bar" style="left:0.0%;width:100.0%">
+          <strong>Ph.D., Electrical Engineering</strong><span>Texas A&amp;M University · 2021 – Dec 2026</span>
+        </div>
+      </div>
+      <div class="lane side">
+        <span class="lane-label">Alongside the Ph.D.</span>
+        <div class="seg minor" style="left:43.75%;width:9.37%"><em>HPRC</em></div>
+        <div class="seg intern" style="left:75.0%;width:6.25%"><em>Qualcomm</em></div>
+        <div class="seg intern" style="left:89.06%;width:4.69%"><em>Uber</em></div>
+      </div>
+    </div>
+    <div class="side-cards">
+      <div class="sc intern"><span class="sc-tag">Internship</span><b>Machine Learning Intern</b><span>Uber · Rider Pricing &amp; Incentives</span><span class="sc-when">Jun – Aug 2026</span></div>
+      <div class="sc intern"><span class="sc-tag">Internship</span><b>Engineering Intern</b><span>Qualcomm · San Diego</span><span class="sc-when">Sep – Dec 2025</span></div>
+      <div class="sc minor"><span class="sc-tag">Research appointment</span><b>Research Assistant, ML systems</b><span>High Performance Research Computing, Texas A&amp;M</span><span class="sc-when">Jan – Jun 2024</span></div>
+    </div>
   </section>
 
   <!-- Featured work -->
