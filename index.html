@@ -261,12 +261,12 @@
     <button class="menu-btn" aria-expanded="false" aria-controls="sections">Menu</button>
     <nav aria-label="Sections" id="sections">
       <ul>
-        <li><a href="#contact">Contact</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#work">Featured work</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#publications">Publications</a></li>
         <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
     <button class="theme-btn" type="button" aria-label="Toggle light or dark theme" title="Toggle theme">
@@ -301,20 +301,6 @@
     <!-- To use a photo: replace "HL" with <img src="assets/profile.jpg" alt="Portrait of Hieu T. Le"> -->
     <div class="portrait" aria-hidden="true">HL</div>
   </div>
-
-  <!-- Contact -->
-  <section id="contact" aria-labelledby="contact-h">
-    <h2 id="contact-h">Contact</h2>
-    <p class="lede">I am looking for full-time roles in LLM post-training, RL for language models and agentic systems after I finish my Ph.D. in December 2026. Email is the fastest way to reach me.</p>
-    <div class="contact">
-      <a class="btn primary" href="mailto:hieu.tg.le@gmail.com">hieu.tg.le@gmail.com</a>
-      <a class="btn" href="https://www.linkedin.com/in/hieu-le-54648b192/">LinkedIn</a>
-      <a class="btn" href="https://github.com/hieutrungle">GitHub</a>
-      <a class="btn" href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">Google Scholar</a>
-      <a class="btn" href="assets/Hieu_Le_Resume.pdf">Résumé (PDF)</a>
-    </div>
-    <p class="note" style="margin-top:14px">College Station, Texas · Texas A&amp;M University</p>
-  </section>
 
   <!-- About -->
   <section id="about" aria-labelledby="about-h">
@@ -491,8 +477,9 @@
       <li><b>H. Le</b> and J. Tao, “Hierarchical Autoencoder-Based Lossy Compression for Large-Scale High-Resolution Scientific Data,” <i>Computing &amp; AI Connect</i>, vol. 1, no. 1, 2024, doi: <a href="https://doi.org/10.69709/CAIC.2024.193132">10.69709/CAIC.2024.193132</a>.</li>
       <li><b>H. Le</b>, Z. He, M. Le, D. Chakravorty, L. M. Perez, A. Chilumuru, Y. Yao, and J. Chen, “Insight Gained from Migrating a Machine Learning Model to Intelligence Processing Units,” in <i>Proc. Practice and Experience in Advanced Research Computing (PEARC ’24)</i>, Providence, RI, USA, Jul. 2024, pp. 1–9, doi: <a href="https://doi.org/10.1145/3626203.3670527">10.1145/3626203.3670527</a>.</li>
     </ol>
-    <div class="h4" style="margin-top:22px">Co-authored</div>
-    <ol class="ieee" start="9" style="counter-reset: ref 8">
+    <details class="allpubs">
+      <summary>Co-authored (7)</summary>
+      <ol class="ieee" start="9" style="counter-reset: ref 8">
       <li>A. Nasari, <b>H. Le</b>, R. Lawrence, Z. He, X. Yang, M. Krell, A. Tsyplikhin, M. Tatineni, T. Cockerill, L. Perez, D. Chakravorty, and H. Liu, “Benchmarking the Performance of Accelerators on National Cyberinfrastructure Resources for Artificial Intelligence/Machine Learning Workloads,” in <i>Proc. Practice and Experience in Advanced Research Computing (PEARC ’22)</i>, Boston, MA, USA, Jul. 2022, pp. 1–9, doi: <a href="https://doi.org/10.1145/3491418.3530772">10.1145/3491418.3530772</a>.</li>
       <li>A. Nasari, L. Zhai, Z. He, <b>H. Le</b>, S. Cui, D. Chakravorty, J. Tao, and H. Liu, “Porting AI/ML Models to Intelligence Processing Units (IPUs),” in <i>Proc. Practice and Experience in Advanced Research Computing (PEARC ’23)</i>, Portland, OR, USA, Jul. 2023, pp. 231–236, doi: <a href="https://doi.org/10.1145/3569951.3603632">10.1145/3569951.3603632</a>.</li>
       <li>Z. He, S. Nite, J. Winchell, A. Nasari, <b>H. Le</b>, J. Tao, D. Chakravorty, L. Perez, and H. Liu, “Development of a Training Framework for Novel Accelerators,” in <i>Proc. IEEE Frontiers in Education Conference (FIE)</i>, College Station, TX, USA, Oct. 2023, pp. 1–6, doi: <a href="https://doi.org/10.1109/FIE58773.2023.10343498">10.1109/FIE58773.2023.10343498</a>.</li>
@@ -501,6 +488,7 @@
       <li>H. Raghukumar <i>et al.</i> (incl. <b>H. Le</b>), “Smart Communities, Smart Responders—Artificial Intelligence for Internet of Things Competition: A Case Study in Organizing a Public Safety Innovation Challenge,” in <i>Proc. IEEE World Forum on Public Safety Technology (WFPST)</i>, May 2024, pp. 114–119, doi: <a href="https://doi.org/10.1109/WFPST58552.2024.00039">10.1109/WFPST58552.2024.00039</a>.</li>
       <li>A. Cassity, <b>H. Le</b>, H. Santos, E. Priest, and J. Tao, “Dynamic Data-Driven Digital Twin Testbed for Enhanced First Responder Training and Communication,” in <i>Dynamic Data Driven Applications Systems (DDDAS 2024)</i>, Lecture Notes in Computer Science. Cham, Switzerland: Springer, 2025, pp. 100–107, doi: <a href="https://doi.org/10.1007/978-3-031-94895-4_10">10.1007/978-3-031-94895-4_10</a>.</li>
     </ol>
+    </details>
   </section>
 
   <!-- Skills -->
@@ -522,6 +510,19 @@
     </dl>
   </section>
 
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p class="lede">I am looking for full-time roles in LLM post-training, RL for language models and agentic systems after I finish my Ph.D. in December 2026. Email is the fastest way to reach me.</p>
+    <div class="contact">
+      <a class="btn primary" href="mailto:hieu.tg.le@gmail.com">hieu.tg.le@gmail.com</a>
+      <a class="btn" href="https://www.linkedin.com/in/hieu-le-54648b192/">LinkedIn</a>
+      <a class="btn" href="https://github.com/hieutrungle">GitHub</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=7waSw2AAAAAJ&amp;hl=en">Google Scholar</a>
+      <a class="btn" href="assets/Hieu_Le_Resume.pdf">Résumé (PDF)</a>
+    </div>
+    <p class="note" style="margin-top:14px">College Station, Texas · Texas A&amp;M University</p>
+  </section>
 </main>
 
 <footer>
